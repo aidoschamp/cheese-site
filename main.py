@@ -14,6 +14,8 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
+
+# randomised readme to improve lighthouse score as "Read More" isn't good enough
 readMore = [
     "Brie-lieve Me",
     "Grate Read",
@@ -211,7 +213,7 @@ def suggest():
             return redirect(url_for("index"))
         return render_template("/suggest.html", session=session)
 
-
+# view suggestions
 @app.route('/dev', methods=['GET'])
 def dev():
     if session == {}:
@@ -221,7 +223,7 @@ def dev():
     data = dbHandler.listSuggestion()
     return render_template('/dev.html', content=data, session=session)
 
-
+# edit and accept or rejecting a suggestion
 @app.route("/dev2", methods=['POST', 'GET'])
 def dev2():
     if session == {}:
@@ -249,7 +251,7 @@ def dev2():
     else:
         return render_template("/dev2.html", content=data, session=session, suggestionID=suggestionID)
 
-
+# view current events
 @app.route("/the-cheese-files", methods=['GET'])
 def files():
     return render_template("/the-cheese-files.html")
@@ -323,6 +325,7 @@ def chat():
                         seconds += int(part[:-1])
                 dbHandler.timeout(user, seconds)
                 return redirect(url_for("chat"))
+            # don't mind this, this is a reference and an easter egg that probably won't ever happen outside of testing
             if "eggman" in session["username"].lower() or "robotnik" in session["username"].lower():
                 message = "I've come to make an announcement: Shadow the Hedgehog's a bitch-ass motherfucker, he pissed on my fucking wife. That's right, he took his hedgehog-fuckin' quilly dick out and he pissed on my fucking wife, and he said his dick was \"THIS BIG,\" and I said \"that's disgusting,\" so I'm making a callout post on my Twitter.com: Shadow the Hedgehog, you've got a small dick. It's the size of this walnut except WAY smaller. And guess what? Here's what my dong looks like. [Explosion sounds] That's right, baby. All points, no quills, no pillows — look at that, it looks like two balls and a bong! He fucked my wife, so guess what, I'm gonna fuck the Earth. That's right, this is what you get: MY SUPER LASER PISS!! Except I'm not gonna piss on the Earth, I'm gonna go higher; I'M PISSING ON THE MOON! How do you like that, Obama?! I PISSED ON THE MOON, YOU IDIOT! You have twenty-three hours before the piss DRRROPLLLETS hit the fucking Earth, now get outta my fucking sight, before I piss on you too!"
             dbHandler.addMessage(session["userID"], message, time())
