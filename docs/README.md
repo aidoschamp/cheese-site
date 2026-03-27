@@ -1,3 +1,6 @@
+# info
+You will have you create a .env file with `SECRET_KEY=""`
+
 # INTRODUCTION TO FLASK AND PROGRESSIVE WEB APPS TUTORIAL
 
 This guided tutorial will introduce HSC Software Engineering to the basics of developing websites with the [Python Flask framework](https://flask.palletsprojects.com/en/3.0.x/). The tutorial has been specifically designed for requirements in the [NESA Software Engineering Syllabus](https://curriculum.nsw.edu.au/learning-areas/tas/software-engineering-11-12-2022/content/n12/fa6aab137e) and for students in NSW Department of Education schools using eT4L computers.
