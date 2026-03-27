@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="static/css/style.css" />
+    <title>Cheese App</title>
+    <link rel="manifest" href="static/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
+    <script src="https://unpkg.com/htmx.org@1.9.12" defer crossorigin="anonymous"></script>
+    <link rel="preload" href="/static/images/background.avif" fetchpriority="high" as="image">
+    <link rel="preload" href="/static/images/logo.webp" fetchpriority="high" as="image">
+    <link rel="preload" href="/static/font/AlanSans-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <meta name="description" content="cheese">
+    <style>
+      @font-face {
+        font-family: "Alan Sans";
+        src: url(/static/font/AlanSans-Regular.woff2) format("woff2");
+        font-display: swap;
+      }
+    </style>
+  </head>
+
+  <body>
+    {% include "partials/menu.html" %}
+    <div class="make-it-scroll-properly-please-and-thank-you">
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+    <div class="cheeseAI-box">
+      <div class="cheeseAI-chatbox">
+        <form action="/ai" method="POST">
+          <input name="query" placeholder="Type a message" type="text" autocomplete="off">
+        </form>
+        <hr>
+        <div class="cheeseAI-messagebox">
+          <span class="cheeseAI-pfp">🐭</span>
+          <span class="cheeseAI-message">Hi im your cheese AI, if you have any questions relating to cheese just ask me!</span>
+        </div>
+      </div>
+      <div class="cheeseAI-icon">
+        <span>Cheese AI</span>
+      </div>
+    </div>
+    <script src="static/js/app.js" async></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="cheese-container">
+    <form method="POST" action="/suggest">
+        <h1 style="color: #b91e1e;">(You can only submit one suggestion per day)</h1>
+        <div style="text-align: center;">
+            <input type="text" value="{% if name %}{{ name }}{% endif %}" placeholder="Cheese Name" name="cheese-name" style="text-align: center; font-size: x-large; margin-bottom: 1rem;" class="cheese-input" required autocomplete="off">
+        </div>
+        <label for="img_url">Enter Image URL: <span style="color: #b91e1e; font-size: small; font-weight: bold;">(Use a transparent background)</span></label>
+        <input value="{% if img_url %}{{ img_url }}{% endif %}" type="text" id="img_url" name="img_url" placeholder="https://example.com/image.jpg" class="cheese-input" style="width: 13%;" required autocomplete="off">
+        <button type="submit" name="image-submit" class="btn-img" formnovalidate>Display Image</button><br><br>
+        <div class="img-p-flex">
+            {% if img_url %}
+                <div class="image">
+                    <img src="{{ img_url }}" alt="User provided image">
+                </div>
+            {% endif %}
+
+            <div>
+                <textarea placeholder="Description Of The Cheese (Wikipedia is a good source)" name="description" rows="20" cols="75" class="cheese-input" required>{% if description %}{{ description }}{% endif %}</textarea><br>
+                <input type="text" name="origin" placeholder="Where It Originates From" class="cheese-input origin" value="{% if origin %}{{ origin }}{% endif %}" required autocomplete="off">
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button class="btn-submit" type="submit" name="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

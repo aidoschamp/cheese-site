@@ -1,0 +1,10 @@
+{% extends 'layout.html' %} {% block content %}
+    <h1>Chat with other cheese enthusiasts</h1>
+    <div class="chat-container">
+        <form action="/chat" method="POST" style="overflow-y: hidden;">
+            <div id="chat-box" hx-get="/messages" hx-trigger="load" hx-swap="outerHTML"></div>
+            <div hx-get="/chat-input?userID={{ session['userID'] }}&newMessage={{ newMessage }}" hx-trigger="load, every 1s, POST" hx-target="#timeout" hx-swap="outerHTML"></div>
+            <div id="timeout"></div>
+        </form>
+    </div>
+{% endblock %}

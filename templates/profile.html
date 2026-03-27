@@ -1,0 +1,81 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="form-container">
+  <h1>Profile</h1>
+
+  <!-- Form (shown on initial visit) -->
+  <form method="POST" action="/profile" class="login-form">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        minlength="2"
+        maxlength="15"
+        placeholder="Enter your new username"
+        value="{{ session['username'] }}"
+      />
+      <span class="form-hint">Not required only change if you wish to change your username</span>
+    </div>
+
+    {% if failed %}
+        <div class="fail-message">
+            <p>Please enter a unique username</p>
+        </div>
+    {% endif %}
+
+    <div class="form-group">
+        <label for="colour">Message Colour:</label>
+        <input
+            type="color"
+            id="colour"
+            name="colour"
+            value="{{ session['colour'] }}"
+        />
+        <span class="form-hint">The background colour of your messages in the chat</span>
+    </div>
+
+    <div class="form-group">
+      <label for="password">New password:</label>
+      <input
+        type="password"
+        id="new password"
+        name="new password"
+        placeholder="Enter new password"
+      />
+      <span class="form-hint">Not required only enter a value if you wish to change your password</span>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Enter your password"
+        required
+      />
+      <span class="form-hint">Required<br>Enter your current password to save changes</span>
+    </div>
+
+    {% if failedpass %}
+        <div class="fail-message">
+            <p>Incorrect password</p>
+        </div>
+    {% endif %}
+
+    {% if success %}
+        <div class="success-message">
+            <p>Success</p>
+        </div>
+    {% endif %}
+    
+    <div style="display: grid;">
+      <button type="submit" class="btn-submit">Save</button><br>
+      <a href="/logout">Logout</a>
+    </div>
+
+    <button name="delete" type="submit" class="btn-acc-del">Delete Account</button>
+  </form>
+</div>
+{% endblock %}

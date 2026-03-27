@@ -1,0 +1,14 @@
+{% block content %}
+    {% if results != [] %}
+        <div class="results">
+            {% for row in results %}
+                <div>
+                    <a class="result-item" href="/cheese?cheeseID={{ row[0] }}">{{ row[1] }}</a>
+                    {% if results == "the files" %}
+                        <a class="result-item" href="/the-cheese-files">The Files</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

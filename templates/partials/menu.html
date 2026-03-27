@@ -1,0 +1,28 @@
+<nav>
+  <a href="/">
+    <img src="/static/images/logo.webp" alt="cheese logo">
+  </a>
+  <ul class="topnav">
+    <li><a href="/">Home</a></li>
+    {% if session == {} %}
+      <li><a href="login">Login</a></li>
+    {% else %}
+      <li><a href="chat">Chat</a></li>
+      <li><a href="profile">Profile</a></li>
+    {% endif %}
+    {% if session["isDev"] == "True" %}
+      <li><a href="dev">Dev</a></li>
+    {% endif %}
+      <li>
+        <div class="search">
+          <svg class="search-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-f</title><path d="M221.09,64A157.09,157.09,0,1,0,378.18,221.09,157.1,157.1,0,0,0,221.09,64Z" style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-width:32px"></path><line x1="338.29" y1="338.29" x2="448" y2="448" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"></line></g></svg>
+          <div class="search-bar">
+            <input class="cheese-input" type="text" placeholder="Search..." name="q" hx-get="/search" hx-trigger="keyup changed delay:200ms" hx-target="#results" autocomplete="off">
+            <div id="results" class="search-bar" style="position: absolute;"></div>
+          </div>
+        </div>
+      </li>
+  </ul>
+</nav>
+
+</div>

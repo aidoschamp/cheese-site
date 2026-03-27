@@ -1,0 +1,35 @@
+-- database: ./data_source.db
+
+CREATE TABLE cheese(cheeseID INTEGER NOT NULL PRIMARY KEY, name TEXT NOT NULL, rating INTEGER NOT NULL, description TEXT NOT NULL, image TEXT NOT NULL, place_of_origin TEXT NOT NULL);
+ALTER TABLE cheese ADD COLUMN amount_of_ratings INTEGER NOT NULL;
+ALTER TABLE cheese RENAME COLUMN rating TO cumulative_rating;
+INSERT INTO cheese(cheeseID, name, cumulative_rating, description, image, place_of_origin, amount_of_ratings) VALUES(1, "Cheddar", 0, "Cheddar cheese (or simply cheddar) is a natural cheese that is relatively hard, off-white (or orange if colourings such as annatto are added), and sometimes sharp-tasting.", "https://www.calendarcheese.com.au/wp-content/uploads/2023/03/NYD-Westcombe-Cheddar-Raw-Milk-3D-Cut-small.png", "Cheddar, Somerset, England", 0);
+INSERT INTO cheese(cheeseID, name, cumulative_rating, description, image, place_of_origin, amount_of_ratings) VALUES(2, "Mozzarella", 0, "Mozzarella is a semi-soft non-aged cheese prepared using the pasta filata ('stretched-curd') method.", "https://png.pngtree.com/png-vector/20240723/ourmid/pngtree-italian-soft-cheese-mozzarella-white-made-from-cow-or-buffalo-milk-png-image_13220579.png", "Italy", 0);
+INSERT INTO cheese(cheeseID, name, cumulative_rating, description, image, place_of_origin, amount_of_ratings) VALUES(3, "Swiss", 0, "Swiss cheese is a general term for Alpine-style cheeses like Emmental, known for their nutty, mild flavor, pale yellow color, firm texture, and distinctive holes called eyes", "https://wallpapers.com/images/hd/swiss-cheese-wedge-transparent-background-48b8sh6ca6csif2d.jpg", "Emme Valley, Switzerland", 0);
+INSERT INTO cheese(cheeseID, name, cumulative_rating, description, image, place_of_origin, amount_of_ratings) VALUES(4, "Feta", 0, "Feta is a brined white cheese made from sheep milk or from a mixture of sheep and goat milk. It is soft, with small or no holes, and no skin", "https://png.pngtree.com/png-vector/20231017/ourmid/pngtree-white-sliced-greek-feta-cheese-on-a-png-image_10241949.png", "Greece", 0);
+CREATE TABLE users(userID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, salt TEXT NOT NULL, password TEXT NOT NULL, isDev BOOL, UNIQUE(username));
+CREATE TABLE ratings(ratingID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, userID INTEGER NOT NULL, cheeseID INTEGER NOT NULL, rating INTEGER NOT NULL);
+UPDATE cheese SET amount_of_ratings = amount_of_ratings + 1, cumulative_rating = cumulative_rating + 4 WHERE cheeseID = 1;
+CREATE TABLE suggestions(suggestionID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, description TEXT NOT NULL, image TEXT NOT NULL, place_of_origin TEXT NOT NULL);
+ALTER TABLE suggestions ADD COLUMN suggestionDate TEXT NOT NULL;
+ALTER TABLE suggestions ADD COLUMN userID INTEGER NOT NULL;
+SELECT suggestionDate FROM suggestions WHERE userID = 1;
+DELETE FROM suggestions WHERE suggestionID = 1;
+ALTER TABLE users ADD COLUMN lastSuggestion TEXT;
+ALTER TABLE suggestions DROP COLUMN userID;
+ALTER TABLE suggestions DROP COLUMN suggestionDate;
+SELECT cheeseID, userID FROM ratings WHERE userID = 1;
+SELECT * FROM users WHERE LOWER(username) = LOWER("AIDOschaMp");
+SELECT * FROM cheese WHERE name LIKE '%e%' OR description LIKE '%e%' OR place_of_origin LIKE '%e%' ORDER BY cumulative_rating/5/amount_of_ratings DESC NULLS LAST LIMIT 2 OFFSET 2*2;
+SELECT count(*) FROM cheese;
+DELETE FROM suggestions WHERE suggestionID = 8;
+CREATE TABLE chat(messageID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, userID INTEGER NOT NULL, message TEXT NOT NULL, time INTEGER NOT NULL);
+ALTER TABLE users ADD COLUMN colour TEXT NOT NULL DEFAULT "#fec51c";
+UPDATE chat SET deleted = 'TRUE' WHERE messageID = 111;
+SELECT count(*) FROM chat WHERE deleted IS NULL;
+DELETE FROM chat WHERE message = "eteled";
+SELECT * FROM cheese ORDER BY cumulative_rating/amount_of_ratings DESC NULLS LAST;
+SELECT * FROM cheese ORDER BY cumulative_rating/amount_of_ratings DESC LIMIT 7 OFFSET 2;
+SELECT * FROM cheese INNER JOIN ratings ON ratings.userID=1 AND cheese.cheeseID = ratings.cheeseID;
+SELECT * FROM cheese WHERE NOT EXISTS (SELECT cheeseID FROM ratings WHERE cheese.cheeseID = ratings.cheeseID AND userID = 1);
+SELECT cheese.*, ratings.rating FROM cheese LEFT JOIN ratings ON cheese.cheeseID = ratings.cheeseID AND ratings.userID = 1 ORDER BY rating NULLS LAST;

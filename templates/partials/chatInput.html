@@ -1,0 +1,7 @@
+{% block content %}
+    {% if chatTimeout %}
+        <input id="timeout" class="chat-input" disabled value="You have been timed out please wait untill {{ timeoutEnd }}. Your timeout ends in: {% if length[0] > 0 %}{{ length[0] }} days {% endif %}{% if length[1] > 0 %}{{ length[1] }} hours {% endif %}{% if length[2] > 0 %}{{ length[2] }} minutes {% endif %}{% if length[3] > 0 %}{{ length[3] }} seconds{% endif %}">
+    {% else %}
+        <input id="message-input" class="chat-input" placeholder="Send a message" name="message" autocomplete="off" autofocus maxlength="2000">
+    {% endif %}
+{% endblock %}

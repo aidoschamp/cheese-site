@@ -1,0 +1,42 @@
+{% block content %}
+    <link rel="preload" href="{{ content[4] }}" as="image">
+    <h1>{{ content[1] }}</h1>
+    <div {% if not mobile %} class="img-p-flex" {% endif %}>
+        <div {% if not mobile %} class="image" {% else %} class="image-mobile" {% endif %}>
+            <img src="{{ content[4] }}" fetchpriority="high" alt="Image of {{ content[1] }}">
+        </div>
+        <div>
+        <p>{{ content[3] }}</p><br>
+        <p>It was originally made in: {{ content[5] }}</p><br>
+        <h2>Average {% if content[6] != 0 %}of {{ content[6] }}{% endif %} Rating{% if content[6] > 1 %}s{% endif %}:</h2>
+        {% if content[6] == 0 %}
+            <p>no ratings</p>
+        {% else %}
+            <div class="stars" style="--cumulative: {{ content [2] }}; --amount: {{ content [6] }}; font-size: 38pt;"></div>
+        {% endif %}
+        <h2 style="font-size: x-large;">Your Rating:</h2>
+        {% if rated %}
+            <div class="stars" style="--cumulative: {{ rate }}; --amount: 1; font-size: 38pt;"></div>
+        {% elif session == {} %}
+            <p>Please login to rate this cheese</p>
+        {% else %}
+            <form method="POST", action="/cheese?cheeseID={{ cheeseID }}">
+                <div class="stars-input">
+                    <input type="radio" id="5" name="rating" value="5">
+                    <label for="5"></label>
+                    <input type="radio" id="4" name="rating" value="4">
+                    <label for="4"></label>
+                    <input type="radio" id="3" name="rating" value="3">
+                    <label for="3"></label>
+                    <input type="radio" id="2" name="rating" value="2">
+                    <label for="2"></label>
+                    <input type="radio" id="1" name="rating" value="1" required>
+                    <label for="1"></label>
+                </div>
+                <br><br><br>
+                <button class="btn-submit" type="submit" style="text-align: left; margin-top: -5px;">Rate</button>
+            </form>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

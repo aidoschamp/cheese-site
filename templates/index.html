@@ -1,0 +1,37 @@
+{% extends 'layout.html' %} {% block content %}
+    <div class="filter">
+        <span>Filter/Sort</span>
+        <div style="display: flex; padding: 15px; justify-content: space-between;">
+            <div>
+                <label class="check-container">Default
+                    <input id="default" hx-target="#content" hx-swap="outerHTML" hx-get="/list-of-cheese?p={{ page }}" name="sort" value="0|0" type="radio" hx-vals="js:{ width: document.getElementById('content').offsetWidth, height: window.innerHeight, {% if session != {} %} rateFilter: document.getElementById('rateFilter').checked, {% endif %} reverse: document.getElementById('reverse').checked }" {% if sort[0] == "0" or sort == None %}checked{% endif %}>
+                    <span class="radio"></span>
+                </label>
+                <label class="check-container">Rating
+                    <input id="rating" hx-target="#content" hx-swap="outerHTML" hx-get="/list-of-cheese?p={{ page }}" name="sort" value="1|1" type="radio" hx-vals="js:{ width: document.getElementById('content').offsetWidth, height: window.innerHeight, {% if session != {} %} rateFilter: document.getElementById('rateFilter').checked, {% endif %} reverse: document.getElementById('reverse').checked }" {% if sort[0] == "1" %}checked{% endif %}>
+                    <span class="radio"></span>
+                </label>
+                {% if session != {} %}
+                    <label class="check-container">Your Rating
+                        <input id="userRating" hx-target="#content" hx-swap="outerHTML" hx-get="/list-of-cheese?p={{ page }}" name="sort" value="2|1" type="radio" hx-vals="js:{ width: document.getElementById('content').offsetWidth, height: window.innerHeight, {% if session != {} %} rateFilter: document.getElementById('rateFilter').checked, {% endif %} reverse: document.getElementById('reverse').checked }" {% if sort[0] == "2" %}checked{% endif %}>
+                        <span class="radio"></span>
+                    </label>
+                {% endif %}
+            </div>
+            <div style="align-self: center;">
+                <label class="check-container">Reverse
+                    <input id="reverse" hx-target="#content" hx-swap="outerHTML" hx-get="/list-of-cheese?p={{ page }}" name="reverse" value="reverse" type="checkbox" hx-vals="js:{ width: document.getElementById('content').offsetWidth, height: window.innerHeight, {% if session != {} %} rateFilter: document.getElementById('rateFilter').checked, {% endif %} sort: document.querySelector('input[name=sort]:checked').value }" {% if reverse %}checked{% endif %}>
+                    <span class="checkmark"></span>
+                </label>
+                {% if session != {} %}
+                    <label class="check-container">Non-Rated
+                        <input id="rateFilter" hx-target="#content" hx-swap="outerHTML" hx-get="/list-of-cheese?p={{ page }}" name="rateFilter" value="rateFilter" type="checkbox" hx-vals="js:{ width: document.getElementById('content').offsetWidth, height: window.innerHeight, reverse: document.getElementById('reverse').checked, sort: document.querySelector('input[name=sort]:checked').value }"{% if rateFilter == 'true' or rateFilter == 'rateFilter' %}checked{% endif %}>
+                        <span class="checkmark"></span>
+                    </label>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 30px;" id="content" hx-get="/list-of-cheese?p={{ page }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}" hx-trigger="load, resize from:window" hx-target="#content" hx-vals="js:{ width: document.getElementById('content').offsetWidth, height: window.innerHeight }" hx-swap="outerHTML"></div>
+    
+{% endblock %}

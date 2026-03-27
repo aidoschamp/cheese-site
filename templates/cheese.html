@@ -1,0 +1,3 @@
+{% extends 'layout.html' %} {% block content %}
+  <div class="cheese-container" id="content" hx-get="/cheese-content?cheeseID={{ cheeseID }}" hx-trigger="load, resize from:window" hx-target="#content" hx-vals="js:{ width: window.innerWidth, height: window.innerHeight }" hx-swap="innerHTML"></div>
+{% endblock %}

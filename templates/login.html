@@ -1,0 +1,43 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="form-container">
+  <h1>Login</h1>
+
+  <!-- Form (shown on initial visit) -->
+  <form method="POST" action="/login" class="login-form">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        required
+        minlength="2"
+        maxlength="15"
+        placeholder="Enter your username"
+      />
+      <span class="form-hint">Required</span>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+        placeholder="Enter your password"
+      />
+      <span class="form-hint">Required</span>
+    </div>
+
+    <button type="submit" class="btn-submit">Login</button>
+  </form>
+  {% if failed %}
+    <div class="fail-message">
+        <h2>Login Failed</h2>
+        <p>Please enter a valid login</p>
+    </div>
+  {% endif %}
+  <a href="/register">Don't have an account?</a>
+</div>
+{% endblock %}

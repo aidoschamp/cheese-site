@@ -1,0 +1,104 @@
+<div style="margin-top: 30px;" id="content" hx-get="/list-of-cheese?p={{ page }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}" hx-trigger="resize from:window" hx-target="#content" hx-vals="js:{ width: document.getElementById('content').offsetWidth, height: window.innerHeight }" hx-swap="outerHTML">
+    {% block content %}
+        <div class="container">
+            {% for row in content %}
+            <link rel="preload" href="{{ row[4] }}" as="image" fetchpriority="high">
+                <div class="card">
+                    {% if session != {} %}
+                        {% if (row[0],) not in rated %}
+                        <div style="display: flex; height: 0%; width: 100%; text-align: right;">
+                            <div style="width: 52px; margin-left: 89%; display: flex;" class="tooltip">
+                                <svg class="tooltipicon" style="margin-top: 11%; width: 27.19px; height: 27.19px;" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2.4 -2.4 28.80 28.80" xml:space="preserve" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(4.68,4.68), scale(0.61)"><rect x="-2.4" y="-2.4" width="28.80" height="28.80" rx="14.4" fill="#000000" strokewidth="0"></rect></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.048"></g><g id="SVGRepo_iconCarrier"> <g> <path style="fill:#f9b02e;" d="M12,0C5.373,0,0,5.373,0,12s5.373,12,12,12s12-5.373,12-12S18.627,0,12,0z M12,19.66 c-0.938,0-1.58-0.723-1.58-1.66c0-0.964,0.669-1.66,1.58-1.66c0.963,0,1.58,0.696,1.58,1.66C13.58,18.938,12.963,19.66,12,19.66z M12.622,13.321c-0.239,0.815-0.992,0.829-1.243,0c-0.289-0.956-1.316-4.585-1.316-6.942c0-3.11,3.891-3.125,3.891,0 C13.953,8.75,12.871,12.473,12.622,13.321z"></path> </g> </g></svg>
+                                <div class="tooltip-box">
+                                    <span class="tooltiptextarrow">◄</span>
+                                    <span class="tooltiptext">You haven't rated this cheese yet</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                    <h1 class="card-name">{{ row[1] }}</h1>
+                    <p class="card-about">{{ row[3] }}</p>
+                    <a class="btn" class="card-link" href="cheese?cheeseID={{ row[0] }}">{{ readMore[loop.index0] }}</a>
+                    <img
+                        class="card-image"
+                        src="{{ row[4] }}"
+                        alt="Image of {{ row[1] }}."
+                        fetchpriority="high"
+                        as="image"
+                    />
+                    {% if row[6] == 0 %}
+                        <p>no ratings</p>
+                    {% else %}
+                        <div class="stars" style="--cumulative: {{ row [2] }}; --amount: {{ row [6] }}" title="{% if (row[2]/row[6])%1 != 0 %}{{ (row[2] / row[6]) | round(1) }}{% else %}{{ (row[2] / row[6]) | round | int }}{% endif %}/5"></div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% if session != {} and madeSuggestion != True %}
+                <a href="suggest" aria-label="suggest">
+                    <div class="card">
+                        <svg class="plus-symbol" height="150px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6 12H18M12 6V18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                </a>
+            {% elif session == {} %}
+                <div class="card">
+                <strong style="margin-top: 60%;">Login To Suggest An Addition.</strong>
+                <a href="login" class="btn" style="margin-bottom: 100%;">Login</a>
+                </div>
+            {% else %}
+                <div class="card">
+                <strong style="margin: auto;">Wait For Tomorrow To Suggest Again.</strong>
+                </div>
+            {% endif %}
+        </div>
+        {% if amountOfPages != 1 %}
+            <div class="pages">
+                {% if page > 2 %}
+                    <a href="/?sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}" class="pages-icons">«</a>
+                {% else %}
+                    <a class="pages-icons" style="visibility: hidden;">«</a>
+                {% endif %}
+                {% if page > 1 %}
+                    <a href="/?p={{ page - 1 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}" class="pages-icons">‹</a>
+                {% else %}
+                    <a class="pages-icons" style="visibility: hidden;">‹</a>
+                {% endif %}
+                {% if page + 1 > amountOfPages and page - 4 >= 1 %}
+                    <a href="?p={{ page - 4 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page - 4 }}</a>
+                {% endif %}
+                {% if page + 2 > amountOfPages and page - 3 >= 1 %}
+                    <a href="?p={{ page - 3 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page - 3 }}</a>
+                {% endif %}
+                {% if page - 2 >= 1 %}
+                    <a href="?p={{ page - 2 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page - 2 }}</a>
+                {% endif %}
+                {% if page - 1 >= 1 %}
+                    <a href="?p={{ page - 1 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page - 1 }}</a>
+                {% endif %}
+                    <a style="font-size: xx-large;">{{ page }}</a>
+                {% if page + 1 <= amountOfPages %}
+                    <a href="?p={{ page + 1 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page + 1 }}</a>
+                {% endif %}
+                {% if page + 2 <= amountOfPages %}
+                    <a href="?p={{ page + 2 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page + 2 }}</a>
+                {% endif %}
+                {% if page - 2 < 1 and page + 3 <= amountOfPages %}
+                    <a href="?p={{ page + 3 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page + 3 }}</a>
+                {% endif %}
+                {% if page - 1 < 1 and page + 4 <= amountOfPages %}
+                    <a href="?p={{ page + 4 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}">{{ page + 4 }}</a>
+                {% endif %}
+                {% if page < amountOfPages %}
+                    <a href="/?p={{ page + 1 }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}" class="pages-icons">›</a>
+                {% else %}
+                    <a class="pages-icons" style="visibility: hidden;">›</a>
+                {% endif %}
+                {% if page < amountOfPages-1 %}
+                    <a href="/?p={{ amountOfPages }}&sort={{ sort }}&rateFilter={{ rateFilter }}&reverse={{ reverse }}" class="pages-icons">»</a>
+                {% else %}
+                    <a class="pages-icons" style="visibility: hidden;">»</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endblock %}
+</div>
