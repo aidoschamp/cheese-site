@@ -1,5 +1,8 @@
-# info
-You will have you create a .env file with `SECRET_KEY=""`
+# Info
+You will have you create a .env file with `SECRET_KEY="Enter Secret Key Here"`
+
+# Running site
+Open the site in VSC or a terminal and run `py main.py` and click on one of the two links (the first of which being localhost, and the other being local network)
 
 # rest of the read me provided by the tutorial
 # INTRODUCTION TO FLASK AND PROGRESSIVE WEB APPS TUTORIAL
